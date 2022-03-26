@@ -6,9 +6,9 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    . "github.com/mattn/go-result"
+	. "github.com/mattn/go-result"
 )
 
 func doSomething() Result2[int, bool] {
@@ -18,7 +18,7 @@ func doSomething() Result2[int, bool] {
 func main() {
 	r := doSomething()
 	v1, v2 := r.Unwrap()
-    fmt.Println(v1, v2)
+	fmt.Println(v1, v2)
 }
 ```
 
