@@ -41,6 +41,13 @@ func Ok{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}
 func Err{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }} any](err error) Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}] {
 	return Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]{err: err{{"}"}}
 }
+
+{{- $ns := .}}
+{{ range $val := $ns}}
+func (r *Result{{len $ns}}[{{ range $val := $ns}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]) V{{$val}}() T{{$val}} {
+	return r.v{{$val}}
+}
+{{ end }}
 `
 
 func main() {
@@ -52,7 +59,10 @@ func main() {
 	t := template.Must(template.New("").Parse(tmpl))
 	for i := 1; i <= 10; i++ {
 		ns = append(ns, i)
-		t.Execute(&buf, ns)
+		err := t.Execute(&buf, ns)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	b, err := format.Source(buf.Bytes())

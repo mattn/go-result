@@ -70,4 +70,13 @@ func TestResult2(t *testing.T) {
 	if r.Err() != nil {
 		t.Fatal("Err must return nil")
 	}
+
+	v1 = r.V1()
+	if reflect.TypeOf(r.V1()).Kind() != reflect.Int {
+		t.Fatalf("Unwrap must return int, bool but got %T, %T", v1, v2)
+	}
+	v2 = r.V2()
+	if reflect.TypeOf(v2).Kind() != reflect.Bool {
+		t.Fatalf("Unwrap must return int, bool but got %T, %T", v1, v2)
+	}
 }
