@@ -11,6 +11,39 @@ import (
 	"text/template"
 )
 
+var tmpl0 = `
+package result
+
+type Result interface {
+    Err() error
+    IsErr() bool
+}
+
+type Result0 struct {
+}
+
+func (r *Result0) Unwrap() {
+	panic("Unwrap can be called for Result0")
+}
+
+func (r *Result0) Err() error {
+	panic("Err can be called for Result0")
+}
+
+func (r *Result0) IsErr() bool {
+	panic("IsErr can be called for Result0")
+}
+
+func Ok0() Result0 {
+    return Result0{}
+}
+
+func Err0() Result0 {
+	return Result0{}
+}
+
+`
+
 var tmpl = `
 type Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }} any] struct {
     {{- range $val := .}}
@@ -53,7 +86,7 @@ func (r *Result{{len $ns}}[{{ range $val := $ns}}{{if gt $val 1 }}, {{end}}T{{$v
 func main() {
 	var buf bytes.Buffer
 
-	fmt.Fprint(&buf, "package result\n\n")
+	fmt.Fprint(&buf, tmpl0)
 
 	var ns []int
 	t := template.Must(template.New("").Parse(tmpl))

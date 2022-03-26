@@ -1,5 +1,33 @@
 package result
 
+type Result interface {
+	Err() error
+	IsErr() bool
+}
+
+type Result0 struct {
+}
+
+func (r *Result0) Unwrap() {
+	panic("Unwrap can be called for Result0")
+}
+
+func (r *Result0) Err() error {
+	panic("Err can be called for Result0")
+}
+
+func (r *Result0) IsErr() bool {
+	panic("IsErr can be called for Result0")
+}
+
+func Ok0() Result0 {
+	return Result0{}
+}
+
+func Err0() Result0 {
+	return Result0{}
+}
+
 type Result1[T1 any] struct {
 	v1  T1
 	err error
